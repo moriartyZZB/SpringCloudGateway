@@ -1,5 +1,8 @@
 package cn.moriartyzzb.controller;
 
+
+import cn.moriartyzzb.fegin.GatewayServiceFeign;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021/3/5 14:50
  */
 @RestController
-public class AserviceController {
+public class CserviceController {
+    @Autowired
+    GatewayServiceFeign gatewayServiceFegin;
     /*
      * @ClassName ASayHelloController
      * @Desc TODO   读取配置文件中的端口
@@ -29,9 +34,8 @@ public class AserviceController {
      * @Version 1.0
      */
     @RequestMapping("/hello")
-    public String hello() {
-        throw new RuntimeException("服务端测试异常！");
-       // return "Hello！I'm a. port：" + port;
+    public String hello(){
+        return "Hello！I'm a. port：" + port;
     }
 
     /*
@@ -41,7 +45,7 @@ public class AserviceController {
      * @Version 1.0
      */
     @RequestMapping("/name")
-    public String name(String name) {
+    public String name(String name){
         return "My name is " + name + ". aaa";
     }
 
@@ -52,7 +56,7 @@ public class AserviceController {
      * @Version 1.0
      */
     @RequestMapping("/age")
-    public String age(String age) {
+    public String age(String age){
         return "I am " + age + " years old this year. aaa";
     }
 
@@ -65,6 +69,12 @@ public class AserviceController {
     @RequestMapping("/routeAll")
     public String routeAll(String pass) {
         return "Can I pass? " + pass + "! port：" + port;
+    }
+
+    @RequestMapping("/feign")
+    public String feign(){
+        String hello = gatewayServiceFegin.hello();
+        return "Hello！I'm a. port：" + port+" 调用了gateway-service的hello"+hello;
     }
 
 }
